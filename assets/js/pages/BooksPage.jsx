@@ -4,44 +4,47 @@ import Pagination from '../components/Pagination'
 import BooksAPI from '../services/booksAPI'
 import { toast } from 'react-toastify'
 import TableLoader from '../components/loaders/TableLoader'
+import { connect } from 'react-redux'
+import { fetchAllBooks } from '../actions/bookActions'
 
-const BooksPage = () => {
+const BooksPage = ({ books, isFetching, fetchAllBooks }) => {
 
-    const [books, setBooks] = useState([])
+    // const [books, setBooks] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
     const [search, setSearch] = useState('')
-    const [loading, setLoading] = useState(true)
+    // const [loading, setLoading] = useState(isFetching)
 
-    //Récupère les books
-    async function fetchBooks () {
-        try {
-            const data = await BooksAPI.findAll()
-            setBooks(data)
-            setLoading(false)
-        } catch (error) {
-            console.log(error.response)
-            toast.error('An error occured')
-        }
-    }
+    // //Récupère les books
+    // async function fetchBooks () {
+    //     try {
+    //         const data = await BooksAPI.findAll()
+    //         setBooks(data)
+    //         setLoading(false)
+    //     } catch (error) {
+    //         console.log(error.response)
+    //         toast.error('An error occured')
+    //     }
+    // }
 
     //Au chargement du composant on récupère les books
     useEffect(() => {
-        fetchBooks()
+        fetchAllBooks()
     }, [])
 
-    //Gestion de la suppression d'un book
-    const handleDelete = async id => {
-        const originalBooks = [...books]
-        setBooks(books.filter(book => book.id !== id))
-        try {
-            await BooksAPI.delete(id)
-            toast.success('Deleted successfully')
-        } catch (error) {
-            setBooks(originalBooks)
-            toast.error('An error occured')
-        }
-    }
-
+    //
+    // //Gestion de la suppression d'un book
+    // const handleDelete = async id => {
+    //     const originalBooks = [...books]
+    //     setBooks(books.filter(book => book.id !== id))
+    //     try {
+    //         await BooksAPI.delete(id)
+    //         toast.success('Deleted successfully')
+    //     } catch (error) {
+    //         setBooks(originalBooks)
+    //         toast.error('An error occured')
+    //     }
+    // }
+    //
     //Gestion du changement de page
     const handlePageChange = page => setCurrentPage(page)
 
@@ -85,7 +88,7 @@ const BooksPage = () => {
                   <th></th>
               </tr>
               </thead>
-              {!loading && (
+              {!isFetching && (
                 <tbody>
                 {paginatedBooks.map(book => <tr key={book.id}>
                       <td>{book.id}</td>
@@ -108,7 +111,7 @@ const BooksPage = () => {
                 </tbody>
               )}
           </table>
-          {loading && <TableLoader/>}
+          {isFetching && <TableLoader/>}
 
 
           {filteredBooks.length > itemsPerPage && (
@@ -121,4 +124,9 @@ const BooksPage = () => {
     )
 }
 
-export default BooksPage
+const mapStateToProps = (state) => ({
+    books: state.bookReducer.books,
+    isFetching: state.bookReducer.isFetching
+})
+
+export default connect(mapStateToProps, { fetchAllBooks })(BooksPage)

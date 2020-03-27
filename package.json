@@ -20,6 +20,10 @@
     "moment": "latest",
     "react-dom": "latest",
     "react-toastify": "latest",
-    "react-content-loader": "latest"
+    "react-content-loader": "latest",
+    "react-redux": "latest",
+    "redux-thunk": "latest",
+    "redux": "latest",
+    "redux-logger": "latest"
   }
 }

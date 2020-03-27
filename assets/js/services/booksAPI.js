@@ -3,12 +3,12 @@ import Cache from './cache'
 import { BOOKS_API } from '../config'
 
 const findAll = async () => {
-    const cachedBooks = await Cache.get('books')
-    if (cachedBooks) return cachedBooks
+    // const cachedBooks = await Cache.get('books')
+    // if (cachedBooks) return cachedBooks
     return axios.get(BOOKS_API)
       .then(response => {
           const books = response.data['hydra:member']
-          Cache.set('books', books)
+          // Cache.set('books', books)
           return books
       })
 }

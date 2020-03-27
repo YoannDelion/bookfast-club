@@ -16,6 +16,8 @@ import { ToastContainer, toast } from 'react-toastify'
 
 import '../css/app.css'
 import 'react-toastify/dist/ReactToastify.css'
+import { Provider } from 'react-redux'
+import store from './store'
 
 AuthAPI.setup()
 
@@ -25,23 +27,25 @@ const App = () => {
     const NavbarWithRouter = withRouter(Navbar)
 
     return (
-      <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
-          <HashRouter>
-              <NavbarWithRouter/>
-              <main className="container pt-5">
-                  <Switch>
-                      <Route path={'/login'} component={LoginPage}/>
-                      <Route path={'/signin'} component={SigninPage}/>
-                      <PrivateRoute path={'/books/:id'} component={BookPage}/>
-                      <PrivateRoute path={'/books'} component={BooksPage}/>
-                      <PrivateRoute path={'/scores/:id'} component={ScorePage}/>
-                      <PrivateRoute path={'/scores'} component={ScoresPage}/>
-                      <Route path={'/'} component={HomePage}/>
-                  </Switch>
-              </main>
-          </HashRouter>
-          <ToastContainer position={toast.POSITION.BOTTOM_LEFT}/>
-      </AuthContext.Provider>
+      <Provider store={store}>
+          <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
+              <HashRouter>
+                  <NavbarWithRouter/>
+                  <main className="container pt-5">
+                      <Switch>
+                          <Route path={'/login'} component={LoginPage}/>
+                          <Route path={'/signin'} component={SigninPage}/>
+                          <PrivateRoute path={'/books/:id'} component={BookPage}/>
+                          <PrivateRoute path={'/books'} component={BooksPage}/>
+                          <PrivateRoute path={'/scores/:id'} component={ScorePage}/>
+                          <PrivateRoute path={'/scores'} component={ScoresPage}/>
+                          <Route path={'/'} component={HomePage}/>
+                      </Switch>
+                  </main>
+              </HashRouter>
+              <ToastContainer position={toast.POSITION.BOTTOM_LEFT}/>
+          </AuthContext.Provider>
+      </Provider>
     )
 }
 

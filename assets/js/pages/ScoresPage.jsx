@@ -1,44 +1,46 @@
 import React, { useEffect, useState } from 'react'
+import { connect} from 'react-redux'
 import { Link } from 'react-router-dom'
 import Pagination from '../components/Pagination'
 import ScoresAPI from '../services/scoresAPI'
 import moment from 'moment'
 import { toast } from 'react-toastify'
 import TableLoader from '../components/loaders/TableLoader'
+import { fetchAllScores } from '../actions/scoreActions'
 
-const ScoresPage = () => {
+const ScoresPage = ({scores, isFetching, fetchAllScores}) => {
 
-    const [scores, setScores] = useState([])
+    // const [scores, setScores] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
     const [search, setSearch] = useState('')
-    const [loading, setLoading] = useState(true)
+    // const [loading, setLoading] = useState(true)
 
-    const fetchScores = async () => {
-        try {
-            const data = await ScoresAPI.findAll()
-            setScores(data)
-            setLoading(false)
-        } catch (error) {
-            console.log(error.response)
-            toast.error('An error occured')
-        }
-    }
+    // const fetchScores = async () => {
+    //     try {
+    //         const data = await ScoresAPI.findAll()
+    //         setScores(data)
+    //         setLoading(false)
+    //     } catch (error) {
+    //         console.log(error.response)
+    //         toast.error('An error occured')
+    //     }
+    // }
 
     useEffect(() => {
-        fetchScores()
+        fetchAllScores()
     }, [])
 
-    const handleDelete = async id => {
-        const originalScores = [...scores]
-        setScores(scores.filter(book => book.id !== id))
-        try {
-            await ScoresAPI.delete(id)
-            toast.success('Score deleted')
-        } catch (error) {
-            setScores(originalScores)
-            toast.error('An error occured')
-        }
-    }
+    // const handleDelete = async id => {
+    //     const originalScores = [...scores]
+    //     setScores(scores.filter(book => book.id !== id))
+    //     try {
+    //         await ScoresAPI.delete(id)
+    //         toast.success('Score deleted')
+    //     } catch (error) {
+    //         setScores(originalScores)
+    //         toast.error('An error occured')
+    //     }
+    // }
 
     //Gestion du changement de page
     const handlePageChange = page => setCurrentPage(page)
@@ -84,7 +86,7 @@ const ScoresPage = () => {
                   <th></th>
               </tr>
               </thead>
-              {!loading && (
+              {!isFetching && (
                 <tbody>
                 {paginatedScores.map(score => <tr key={score.id}>
                       <td>{score.id}</td>
@@ -104,7 +106,7 @@ const ScoresPage = () => {
               )}
           </table>
 
-          {loading && <TableLoader/>}
+          {isFetching && <TableLoader/>}
 
           {filteredScores.length > itemsPerPage && (
             <Pagination currentPage={currentPage}
@@ -116,4 +118,9 @@ const ScoresPage = () => {
     )
 }
 
-export default ScoresPage
+const mapStateToProps = state => ({
+    scores: state.scoreReducer.scores,
+    isFetching: state.scoreReducer.isFetching
+})
+
+export default connect(mapStateToProps, { fetchAllScores})(ScoresPage)
