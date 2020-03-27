@@ -1,30 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { connect} from 'react-redux'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Pagination from '../components/Pagination'
-import ScoresAPI from '../services/scoresAPI'
 import moment from 'moment'
-import { toast } from 'react-toastify'
 import TableLoader from '../components/loaders/TableLoader'
-import { fetchAllScores } from '../actions/scoreActions'
+import { fetchAllScores } from '../slices/scoresSlice'
 
 const ScoresPage = ({scores, isFetching, fetchAllScores}) => {
 
-    // const [scores, setScores] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
     const [search, setSearch] = useState('')
-    // const [loading, setLoading] = useState(true)
-
-    // const fetchScores = async () => {
-    //     try {
-    //         const data = await ScoresAPI.findAll()
-    //         setScores(data)
-    //         setLoading(false)
-    //     } catch (error) {
-    //         console.log(error.response)
-    //         toast.error('An error occured')
-    //     }
-    // }
 
     useEffect(() => {
         fetchAllScores()

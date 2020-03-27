@@ -1,30 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Pagination from '../components/Pagination'
-import BooksAPI from '../services/booksAPI'
-import { toast } from 'react-toastify'
 import TableLoader from '../components/loaders/TableLoader'
 import { connect } from 'react-redux'
-import { fetchAllBooks } from '../actions/bookActions'
+import { fetchAllBooks } from '../slices/booksSlice'
 
 const BooksPage = ({ books, isFetching, fetchAllBooks }) => {
 
-    // const [books, setBooks] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
     const [search, setSearch] = useState('')
-    // const [loading, setLoading] = useState(isFetching)
-
-    // //Récupère les books
-    // async function fetchBooks () {
-    //     try {
-    //         const data = await BooksAPI.findAll()
-    //         setBooks(data)
-    //         setLoading(false)
-    //     } catch (error) {
-    //         console.log(error.response)
-    //         toast.error('An error occured')
-    //     }
-    // }
 
     //Au chargement du composant on récupère les books
     useEffect(() => {

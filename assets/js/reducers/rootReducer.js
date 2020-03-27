@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-import bookReducer from './bookReducer'
-import scoreReducer from './scoreReducer'
+import bookReducer from '../slices/booksSlice'
+import scoreReducer from '../slices/scoresSlice'
 
 const rootReducer = combineReducers({ bookReducer, scoreReducer })
 

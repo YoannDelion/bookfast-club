@@ -15,15 +15,16 @@
     "build": "encore production --progress"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.3.1",
     "axios": "latest",
-    "react-router-dom": "latest",
     "moment": "latest",
-    "react-dom": "latest",
-    "react-toastify": "latest",
     "react-content-loader": "latest",
+    "react-dom": "latest",
     "react-redux": "latest",
-    "redux-thunk": "latest",
+    "react-router-dom": "latest",
+    "react-toastify": "latest",
     "redux": "latest",
-    "redux-logger": "latest"
+    "redux-logger": "latest",
+    "redux-thunk": "latest"
   }
 }

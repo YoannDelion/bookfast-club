@@ -1,19 +1,15 @@
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
-import thunkMiddleware from 'redux-thunk'
-import { createLogger } from 'redux-logger'
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
+import { logger } from 'redux-logger';
 import rootReducer from './reducers/rootReducer'
-import { fetchAllBooks } from './actions/bookActions'
-import bookReducer from './reducers/bookReducer'
 
-const loggerMiddleware = createLogger()
-const middleware = [thunkMiddleware, loggerMiddleware]
+const middleware = [...getDefaultMiddleware(), logger]
 
-const store = createStore(
-  rootReducer
-  , compose(
-    applyMiddleware(...middleware),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  )
-)
+// Takes an object with named fiels as arguments
+// Redux DevTools enabled automatically
+// thunk is a default middleware
+const store = configureStore({
+    reducer: rootReducer,
+    middleware: middleware
+})
 
 export default store
